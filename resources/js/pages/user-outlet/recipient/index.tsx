@@ -83,8 +83,6 @@ export default function IndexRecipient() {
                 <Link href={route('recipient.create')} className="inline-block">
                     <Button>Tambah</Button>
                 </Link>
-                <Button>Bagikan Acak</Button>
-                <Button>Bagikan Semua</Button>
             </div>
             <DataTables columns={columns} data={data ?? []} searchBy={searchBy} />
         </AppLayout>

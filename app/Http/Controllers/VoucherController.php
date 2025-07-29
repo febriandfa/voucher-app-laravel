@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\MVoucherTypeService;
 use App\Services\VoucherService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
@@ -21,7 +22,7 @@ class VoucherController extends Controller
 
     public function index()
     {
-        $vouchers = $this->voucherService->getAll();
+        $vouchers = $this->voucherService->getByOutletId(Auth::user()->outlet_id);
 
         return Inertia::render('user-outlet/voucher/index', compact('vouchers'));
     }
@@ -93,18 +94,6 @@ class VoucherController extends Controller
             return redirect()->route('voucher.index')->with('success', 'Voucher deleted successfully.');
         } catch (\Exception $e) {
             Log::error('Error during voucher deletion: ' . $e->getMessage());
-            return redirect()->back()->with('error', $e->getMessage());
-        }
-    }
-
-    public function claim(Request $request)
-    {
-        try {
-            $this->voucherService->claim($request->only(['voucher_id',]));
-
-            return redirect()->back()->with('success', 'Voucher claimed successfully.');
-        } catch (\Exception $e) {
-            Log::error('Error during voucher claim: ' . $e->getMessage());
             return redirect()->back()->with('error', $e->getMessage());
         }
     }

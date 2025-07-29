@@ -16,6 +16,4 @@ class TransactionVoucherReceiptService
     {
         $this->transactionVoucherReceiptRepository = $transactionVoucherReceiptRepository;
     }
-
-    
 }

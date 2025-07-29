@@ -31,11 +31,26 @@ class VoucherRepository
 
     public function findById($id)
     {
-        return Voucher::where('id', $id)->with(['outlet', 'mVoucherType'])->first();
+        return Voucher::where('id', $id)->with(['outlet', 'mVoucherType', 'transactionVoucherReceipts'])->first();
     }
 
     public function getAll()
     {
         return Voucher::with(['outlet', 'mVoucherType'])->get();
+    }
+
+    public function getByOutletId($outletId)
+    {
+        return Voucher::where('outlet_id', $outletId)->with(['outlet', 'mVoucherType'])->get();
+    }
+
+    public function getActiveByOutletId($outletId)
+    {
+        return Voucher::where('outlet_id', $outletId)->where('status', 'active')->with(['outlet', 'mVoucherType'])->get();
+    }
+
+    public function getActive()
+    {
+        return Voucher::where('status', 'active')->with(['outlet', 'mVoucherType'])->get();
     }
 }

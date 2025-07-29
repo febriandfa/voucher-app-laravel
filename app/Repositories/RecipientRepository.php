@@ -34,8 +34,18 @@ class RecipientRepository
         return Recipient::find($id);
     }
 
+    public function findByEmail($email)
+    {
+        return Recipient::where('email', $email)->first();
+    }
+
     public function getAll()
     {
         return Recipient::all();
+    }
+
+    public function getRandom($count = 1)
+    {
+        return Recipient::inRandomOrder()->take($count)->get();
     }
 }

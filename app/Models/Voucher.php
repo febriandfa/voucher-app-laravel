@@ -26,4 +26,9 @@ class Voucher extends Model
     {
         return $this->belongsTo(MVoucherType::class, 'm_voucher_type_id');
     }
+
+    public function transactionVoucherReceipts()
+    {
+        return $this->hasMany(TransactionVoucherReceipt::class, 'voucher_id');
+    }
 }

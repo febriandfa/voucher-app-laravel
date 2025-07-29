@@ -2,13 +2,18 @@
 
 namespace App\Services;
 
+use App\Repositories\TransactionVoucherUsageRepository;
+
 class TransactionVoucherUsageService
 {
     /**
      * Create a new class instance.
      */
-    public function __construct()
+
+    protected $transactionVoucherUsageRepository;
+
+    public function __construct(TransactionVoucherUsageRepository $transactionVoucherUsageRepository)
     {
-        //
+        $this->transactionVoucherUsageRepository = $transactionVoucherUsageRepository;
     }
 }
