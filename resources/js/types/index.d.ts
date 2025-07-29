@@ -83,3 +83,26 @@ export interface Recipient {
     updated_at: string;
     [key: string]: unknown;
 }
+
+export interface TransactionVoucherReceipt {
+    id: number;
+    voucher_id: number;
+    voucher: Voucher;
+    recipient_id: number;
+    recipient: Recipient;
+    tanggal_penerimaan: string;
+    created_at: string;
+    updated_at: string;
+    [key: string]: unknown;
+}
+
+export interface TransactionVoucherUsage {
+    id: number;
+    voucher_id: number;
+    voucher: Voucher;
+    keterangan_pemakaian: string;
+    tanggal_pemakaian: string;
+    created_at: string;
+    updated_at: string;
+    [key: string]: unknown;
+}

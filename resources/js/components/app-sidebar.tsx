@@ -3,7 +3,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { SharedData, type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { House, LayoutGrid, Send, Ticket, User } from 'lucide-react';
+import { House, LayoutGrid, Receipt, Send, Ticket, User } from 'lucide-react';
 import AppLogo from './app-logo';
 
 export function AppSidebar() {
@@ -47,6 +47,16 @@ export function AppSidebar() {
             title: 'Kirim Voucher',
             href: route('send-voucher.create'),
             icon: Send,
+        },
+        {
+            title: 'Transaksi Penerimaan Voucher',
+            href: route('voucher-receipt.index'),
+            icon: Receipt,
+        },
+        {
+            title: 'Transaksi Pemakaian Voucher',
+            href: route('voucher-usage.index'),
+            icon: Receipt,
         },
     ];
 

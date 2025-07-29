@@ -5,6 +5,8 @@ use App\Http\Controllers\MVoucherTypeController;
 use App\Http\Controllers\OutletController;
 use App\Http\Controllers\RecipientController;
 use App\Http\Controllers\SendVoucherController;
+use App\Http\Controllers\TransactionVoucherReceiptController;
+use App\Http\Controllers\TransactionVoucherUsageController;
 use App\Http\Controllers\VoucherController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -29,6 +31,8 @@ Route::middleware(['auth'])->group(function () {
         'voucher' => VoucherController::class,
         'recipient' => RecipientController::class,
         'send-voucher' => SendVoucherController::class,
+        'voucher-receipt' => TransactionVoucherReceiptController::class,
+        'voucher-usage' => TransactionVoucherUsageController::class,
     ]);
 });
 

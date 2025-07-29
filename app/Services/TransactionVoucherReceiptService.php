@@ -16,4 +16,26 @@ class TransactionVoucherReceiptService
     {
         $this->transactionVoucherReceiptRepository = $transactionVoucherReceiptRepository;
     }
+
+    public function delete($id)
+    {
+        $voucherReceipt = $this->transactionVoucherReceiptRepository->findById($id);
+
+        if (!$voucherReceipt) {
+            throw new \Exception('Transaction voucher receipt not found');
+        }
+
+        return $this->transactionVoucherReceiptRepository->delete($voucherReceipt);
+    }
+
+    public function findById($id)
+    {
+        return $this->transactionVoucherReceiptRepository->findById($id);
+    }
+
+    public function getAll()
+    {
+        return $this->transactionVoucherReceiptRepository->getAll();
+    }
+
 }

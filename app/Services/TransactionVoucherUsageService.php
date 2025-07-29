@@ -16,4 +16,25 @@ class TransactionVoucherUsageService
     {
         $this->transactionVoucherUsageRepository = $transactionVoucherUsageRepository;
     }
+
+    public function delete($id)
+    {
+        $voucherUsage = $this->transactionVoucherUsageRepository->findById($id);
+
+        if (!$voucherUsage) {
+            throw new \Exception('Transaction voucher usage not found');
+        }
+
+        return $this->transactionVoucherUsageRepository->delete($voucherUsage);
+    }
+
+    public function findById($id)
+    {
+        return $this->transactionVoucherUsageRepository->findById($id);
+    }
+
+    public function getAll()
+    {
+        return $this->transactionVoucherUsageRepository->getAll();
+    }
 }

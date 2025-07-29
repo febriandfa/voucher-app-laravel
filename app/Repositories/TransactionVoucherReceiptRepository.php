@@ -31,11 +31,11 @@ class TransactionVoucherReceiptRepository
 
     public function findById($id)
     {
-        return TransactionVoucherReceipt::where('id', $id)->with(['voucher', 'recipient'])->first();
+        return TransactionVoucherReceipt::where('id', $id)->with(['voucher.mVoucherType', 'recipient'])->first();
     }
 
     public function getAll()
     {
-        return TransactionVoucherReceipt::with(['voucher', 'recipient'])->get();
+        return TransactionVoucherReceipt::with(['voucher.mVoucherType', 'recipient'])->get();
     }
 }
