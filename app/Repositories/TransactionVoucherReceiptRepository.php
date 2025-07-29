@@ -46,4 +46,12 @@ class TransactionVoucherReceiptRepository
     {
         return TransactionVoucherReceipt::with(['voucher.mVoucherType', 'recipient'])->get();
     }
+
+    public function getByOutletId($outletId)
+    {
+        return TransactionVoucherReceipt::with(['voucher.mVoucherType', 'recipient'])
+            ->whereHas('voucher', function ($query) use ($outletId) {
+                $query->where('outlet_id', $outletId);
+            })->get();
+    }
 }

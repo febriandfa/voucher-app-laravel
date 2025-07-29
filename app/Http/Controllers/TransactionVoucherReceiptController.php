@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\TransactionVoucherReceiptService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
@@ -18,7 +19,7 @@ class TransactionVoucherReceiptController extends Controller
 
     public function index()
     {
-        $voucherReceipts = $this->transactionVoucherReceiptService->getAll();
+        $voucherReceipts = $this->transactionVoucherReceiptService->getByOutletId(Auth::user()->outlet_id);
 
         return Inertia::render('user-outlet/voucher-receipt/index', compact('voucherReceipts'));
     }

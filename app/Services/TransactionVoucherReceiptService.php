@@ -38,4 +38,8 @@ class TransactionVoucherReceiptService
         return $this->transactionVoucherReceiptRepository->getAll();
     }
 
+    public function getByOutletId($outletId)
+    {
+        return $this->transactionVoucherReceiptRepository->getByOutletId($outletId);
+    }
 }

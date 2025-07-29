@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\TransactionVoucherUsageService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
@@ -18,7 +19,7 @@ class TransactionVoucherUsageController extends Controller
 
     public function index()
     {
-        $voucherUsages = $this->transactionVoucherUsageService->getAll();
+        $voucherUsages = $this->transactionVoucherUsageService->getByOutletId(Auth::user()->outlet_id);
 
         return Inertia::render('user-outlet/voucher-usage/index', compact('voucherUsages'));
     }

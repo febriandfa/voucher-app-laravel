@@ -38,4 +38,12 @@ class TransactionVoucherUsageRepository
     {
         return TransactionVoucherUsage::with(['voucher.mVoucherType'])->get();
     }
+
+    public function getByOutletId($outletId)
+    {
+        return TransactionVoucherUsage::with(['voucher.mVoucherType'])
+            ->whereHas('voucher', function ($query) use ($outletId) {
+                $query->where('outlet_id', $outletId);
+            })->get();
+    }
 }

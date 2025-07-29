@@ -37,4 +37,9 @@ class TransactionVoucherUsageService
     {
         return $this->transactionVoucherUsageRepository->getAll();
     }
+
+    public function getByOutletId($outletId)
+    {
+        return $this->transactionVoucherUsageRepository->getByOutletId($outletId);
+    }
 }
