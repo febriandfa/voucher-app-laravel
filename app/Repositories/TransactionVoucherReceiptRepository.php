@@ -34,6 +34,14 @@ class TransactionVoucherReceiptRepository
         return TransactionVoucherReceipt::where('id', $id)->with(['voucher.mVoucherType', 'recipient'])->first();
     }
 
+    public function findByVoucherIdRecipientId($voucherId, $recipientId)
+    {
+        return TransactionVoucherReceipt::where('voucher_id', $voucherId)
+            ->where('recipient_id', $recipientId)
+            ->with(['voucher.mVoucherType', 'recipient'])
+            ->first();
+    }
+
     public function getAll()
     {
         return TransactionVoucherReceipt::with(['voucher.mVoucherType', 'recipient'])->get();

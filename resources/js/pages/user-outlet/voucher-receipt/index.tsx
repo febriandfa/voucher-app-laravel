@@ -2,15 +2,13 @@ import DataTables from '@/components/data-tables';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem, TransactionVoucherReceipt } from '@/types';
-import { Head, Link, router, usePage } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 import { Trash } from 'lucide-react';
 
 export default function IndexVoucherReceipt() {
     const { voucherReceipts } = usePage().props as {
         voucherReceipts?: TransactionVoucherReceipt[];
     };
-
-    console.log('voucherReceipts', voucherReceipts);
 
     const breadcrumbs: BreadcrumbItem[] = [
         {
@@ -76,11 +74,6 @@ export default function IndexVoucherReceipt() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Transaksi Penerimaan Voucher" />
-            <div className="mb-4 flex gap-4">
-                <Link href={route('voucher-receipt.create')} className="inline-block">
-                    <Button>Tambah</Button>
-                </Link>
-            </div>
             <DataTables columns={columns} data={data ?? []} searchBy={searchBy} />
         </AppLayout>
     );

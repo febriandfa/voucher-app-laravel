@@ -38,10 +38,8 @@ class SendVoucherController extends Controller
 
             return redirect()->route('send-voucher.create')->with('success', 'Voucher sent successfully.');
         } catch (\Illuminate\Validation\ValidationException $e) {
-            dd($e);
             return redirect()->back()->withErrors($e->validator)->withInput();
         } catch (\Exception $e) {
-            dd($e);
             Log::error('Error during voucher sending: ' . $e->getMessage());
             return redirect()->back()->with('error', $e->getMessage());
         }

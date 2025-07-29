@@ -3,8 +3,10 @@
 namespace App\Services;
 
 use App\Repositories\RecipientRepository;
+use App\Repositories\TransactionVoucherReceiptRepository;
 use App\Repositories\TransactionVoucherUsageRepository;
 use App\Repositories\VoucherRepository;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class ClaimVoucherService
@@ -14,15 +16,18 @@ class ClaimVoucherService
      */
     protected $voucherRepository;
     protected $transactionVoucherUsageRepository;
+    protected $transactionVoucherReceiptRepository;
     protected $recipientRepository;
 
     public function __construct(
         VoucherRepository $voucherRepository,
         TransactionVoucherUsageRepository $transactionVoucherUsageRepository,
+        TransactionVoucherReceiptRepository $transactionVoucherReceiptRepository,
         RecipientRepository $recipientRepository
     ) {
         $this->voucherRepository = $voucherRepository;
         $this->transactionVoucherUsageRepository = $transactionVoucherUsageRepository;
+        $this->transactionVoucherReceiptRepository = $transactionVoucherReceiptRepository;
         $this->recipientRepository = $recipientRepository;
     }
 
@@ -30,7 +35,7 @@ class ClaimVoucherService
     {
         $validator = Validator::make($data, [
             'voucher_id' => 'required|integer',
-            'email' => 'required|email|exists:recipients,email',
+            'email' => 'required|email|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -41,6 +46,10 @@ class ClaimVoucherService
 
         $voucher = $this->voucherRepository->findById($validatedData['voucher_id']);
         $recipient = $this->recipientRepository->findByEmail($validatedData['email']);
+
+        if (!$recipient) {
+            throw new \Exception('Voucher Recipient not found');
+        }
 
         if (!$voucher) {
             throw new \Exception('Voucher not found');
@@ -58,15 +67,26 @@ class ClaimVoucherService
             throw new \Exception('Voucher has not started yet');
         }
 
-        if ($voucher->transactionVoucherReceipts()->whereHas('recipient', function ($query) use ($validatedData) {
-            $query->where('email', $validatedData['email']);
-        })->exists()) {
+        $voucherRecipt = $this->transactionVoucherReceiptRepository->findByVoucherIdRecipientId($voucher->id, $recipient->id);
+
+        if (!$voucherRecipt) {
             throw new \Exception('Voucher already claimed by this recipient');
         }
 
-        $validatedData['keterangan_pemakaian'] = $recipient->no_wa . ' - ' . $recipient->email . ' - ' . $recipient->name;
-        $validatedData['tanggal_pemakaian'] = now();
+        DB::beginTransaction();
+        try {
+            $validatedData['keterangan_pemakaian'] = $recipient->no_wa . ' - ' . $recipient->email . ' - ' . $recipient->nama;
+            $validatedData['tanggal_pemakaian'] = now();
 
-        return $this->transactionVoucherUsageRepository->create($validatedData);
+            $this->transactionVoucherUsageRepository->create($validatedData);
+            $this->transactionVoucherReceiptRepository->delete($voucherRecipt);
+
+            DB::commit();
+            return true;
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            throw $e;
+        }
+
     }
 }

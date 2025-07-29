@@ -31,11 +31,11 @@ class TransactionVoucherUsageRepository
 
     public function findById($id)
     {
-        return TransactionVoucherUsage::where('id', $id)->with(['voucher'])->first();
+        return TransactionVoucherUsage::where('id', $id)->with(['voucher.mVoucherType'])->first();
     }
 
     public function getAll()
     {
-        return TransactionVoucherUsage::with(['voucher'])->get();
+        return TransactionVoucherUsage::with(['voucher.mVoucherType'])->get();
     }
 }

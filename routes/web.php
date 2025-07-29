@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClaimVoucherController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MVoucherTypeController;
 use App\Http\Controllers\OutletController;
@@ -15,10 +16,8 @@ Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
 
-// Route::get('/claim-voucher', [ClaimVoucherController::class, 'create'])
-//     ->name('claim-voucher.create');
-// Route::post('/claim-voucher', [ClaimVoucherController::class, 'store'])
-//     ->name('claim-voucher.store');
+Route::post('/claim-voucher', [ClaimVoucherController::class, 'store'])
+    ->name('claim-voucher.store');
 
 
 Route::middleware(['auth'])->group(function () {

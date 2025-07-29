@@ -31,4 +31,9 @@ class Voucher extends Model
     {
         return $this->hasMany(TransactionVoucherReceipt::class, 'voucher_id');
     }
+
+    public function transactionVoucherUsages()
+    {
+        return $this->hasMany(TransactionVoucherUsage::class, 'voucher_id');
+    }
 }

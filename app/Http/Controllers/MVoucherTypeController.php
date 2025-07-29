@@ -35,10 +35,8 @@ class MVoucherTypeController extends Controller
 
             return redirect()->route('m-voucher-type.index')->with('success', 'Voucher Type created successfully.');
         } catch (\Illuminate\Validation\ValidationException $e) {
-            dd($e);
             return redirect()->back()->withErrors($e->validator)->withInput();
         } catch (\Exception $e) {
-            dd($e);
             Log::error('Error during voucher type creation: ' . $e->getMessage());
             return redirect()->back()->with('error', $e->getMessage());
         }
