@@ -39,8 +39,10 @@ class RecipientController extends Controller
 
             return redirect()->route('recipient.index')->with('success', 'Recipient created successfully.');
         } catch (\Illuminate\Validation\ValidationException $e) {
+            dd($e);
             return redirect()->back()->withErrors($e->validator)->withInput();
         } catch (\Exception $e) {
+            dd($e);
             Log::error('Error during recipient creation: ' . $e->getMessage());
             return redirect()->back()->with('error', $e->getMessage());
         }

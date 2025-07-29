@@ -73,3 +73,13 @@ export interface Voucher {
     status: 'active' | 'inactive';
     [key: string]: unknown;
 }
+
+export interface Recipient {
+    id: number;
+    nama: string;
+    email: string;
+    no_wa: string;
+    created_at: string;
+    updated_at: string;
+    [key: string]: unknown;
+}

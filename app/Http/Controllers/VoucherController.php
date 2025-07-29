@@ -96,4 +96,16 @@ class VoucherController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+
+    public function claim(Request $request)
+    {
+        try {
+            $this->voucherService->claim($request->only(['voucher_id',]));
+
+            return redirect()->back()->with('success', 'Voucher claimed successfully.');
+        } catch (\Exception $e) {
+            Log::error('Error during voucher claim: ' . $e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
 }

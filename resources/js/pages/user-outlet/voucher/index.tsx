@@ -6,12 +6,10 @@ import { BreadcrumbItem, Voucher } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Pen, Trash } from 'lucide-react';
 
-export default function IndexVoucherType() {
+export default function IndexVoucher() {
     const { vouchers } = usePage().props as {
         vouchers?: Voucher[];
     };
-
-    console.log(vouchers);
 
     const breadcrumbs: BreadcrumbItem[] = [
         {

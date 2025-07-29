@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MVoucherTypeController;
 use App\Http\Controllers\OutletController;
+use App\Http\Controllers\RecipientController;
 use App\Http\Controllers\VoucherController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,6 +20,7 @@ Route::middleware(['auth'])->group(function () {
         'm-voucher-type' => MVoucherTypeController::class,
         'outlet' => OutletController::class,
         'voucher' => VoucherController::class,
+        'recipient' => RecipientController::class,
     ]);
 });
 

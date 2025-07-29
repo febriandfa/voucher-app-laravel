@@ -3,7 +3,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { SharedData, type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { House, LayoutGrid, Ticket } from 'lucide-react';
+import { House, LayoutGrid, Ticket, User } from 'lucide-react';
 import AppLogo from './app-logo';
 
 export function AppSidebar() {
@@ -37,6 +37,11 @@ export function AppSidebar() {
             title: 'Voucher',
             href: route('voucher.index'),
             icon: Ticket,
+        },
+        {
+            title: 'Penerima Voucher',
+            href: route('recipient.index'),
+            icon: User,
         },
     ];
 

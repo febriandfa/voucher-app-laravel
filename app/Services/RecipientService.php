@@ -21,7 +21,7 @@ class RecipientService
     public function create(array $data)
     {
         $validator = Validator::make($data, [
-            'name' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
             'no_wa' => 'required|string|max:15',
             'email' => 'required|email|max:255',
         ]);
@@ -39,7 +39,7 @@ class RecipientService
     public function update($id, array $data)
     {
         $validator = Validator::make($data, [
-            'name' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
             'no_wa' => 'required|string|max:15',
             'email' => 'required|email|max:255',
         ]);
