@@ -19,9 +19,17 @@ class TransactionVoucherUsageController extends Controller
 
     public function index()
     {
-        $voucherUsages = $this->transactionVoucherUsageService->getByOutletId(Auth::user()->outlet_id);
+        $admin = Auth::user()->outlet_id == null;
 
-        return Inertia::render('user-outlet/voucher-usage/index', compact('voucherUsages'));
+        if ($admin) {
+            $voucherUsages = $this->transactionVoucherUsageService->getAll();
+
+            return Inertia::render('admin/voucher-usage/index', compact('voucherUsages'));
+        } else {
+            $voucherUsages = $this->transactionVoucherUsageService->getByOutletId(Auth::user()->outlet_id);
+
+            return Inertia::render('user-outlet/voucher-usage/index', compact('voucherUsages'));
+        }
     }
 
     public function destroy($id)

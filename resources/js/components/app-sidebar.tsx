@@ -25,6 +25,26 @@ export function AppSidebar() {
             href: route('outlet.index'),
             icon: House,
         },
+        {
+            title: 'Voucher',
+            href: route('voucher.index'),
+            icon: Ticket,
+        },
+        {
+            title: 'Penerima Voucher',
+            href: route('recipient.index'),
+            icon: User,
+        },
+        {
+            title: 'Transaksi Penerimaan Voucher',
+            href: route('voucher-receipt.index'),
+            icon: Receipt,
+        },
+        {
+            title: 'Transaksi Pemakaian Voucher',
+            href: route('voucher-usage.index'),
+            icon: Receipt,
+        },
     ];
 
     const outletNavItems: NavItem[] = [

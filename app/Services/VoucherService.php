@@ -35,7 +35,7 @@ class VoucherService
         }
 
         $validatedData = $validator->validated();
-        $validatedData['outlet_id'] = Auth::user()->outlet_id;
+        $validatedData['outlet_id'] = Auth::user()->outlet_id ?? $data['outlet_id'];
 
         return $this->voucherRepository->create($validatedData);
     }
@@ -56,7 +56,7 @@ class VoucherService
         }
 
         $validatedData = $validator->validated();
-        $validatedData['outlet_id'] = Auth::user()->outlet_id;
+        $validatedData['outlet_id'] = Auth::user()->outlet_id ?? $data['outlet_id'];
 
         $voucher = $this->voucherRepository->findById($id);
 

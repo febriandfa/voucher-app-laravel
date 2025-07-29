@@ -19,9 +19,17 @@ class TransactionVoucherReceiptController extends Controller
 
     public function index()
     {
-        $voucherReceipts = $this->transactionVoucherReceiptService->getByOutletId(Auth::user()->outlet_id);
+        $admin = Auth::user()->outlet_id == null;
 
-        return Inertia::render('user-outlet/voucher-receipt/index', compact('voucherReceipts'));
+        if ($admin) {
+            $voucherReceipts = $this->transactionVoucherReceiptService->getAll();
+
+            return Inertia::render('admin/voucher-receipt/index', compact('voucherReceipts'));
+        } else {
+            $voucherReceipts = $this->transactionVoucherReceiptService->getByOutletId(Auth::user()->outlet_id);
+
+            return Inertia::render('user-outlet/voucher-receipt/index', compact('voucherReceipts'));
+        }
     }
 
     public function destroy($id)

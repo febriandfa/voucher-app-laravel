@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\MVoucherTypeService;
+use App\Services\OutletService;
 use App\Services\VoucherService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,31 +14,51 @@ class VoucherController extends Controller
 {
     protected $voucherService;
     protected $mVoucherService;
+    protected $outletService;
 
-    public function __construct(VoucherService $voucherService, MVoucherTypeService $mVoucherService)
+    public function __construct(VoucherService $voucherService, MVoucherTypeService $mVoucherService, OutletService $outletService)
     {
         $this->voucherService = $voucherService;
         $this->mVoucherService = $mVoucherService;
+        $this->outletService = $outletService;
     }
 
     public function index()
     {
-        $vouchers = $this->voucherService->getByOutletId(Auth::user()->outlet_id);
+        $admin = Auth::user()->outlet_id == null;
 
-        return Inertia::render('user-outlet/voucher/index', compact('vouchers'));
+        if ($admin) {
+            $vouchers = $this->voucherService->getAll();
+
+            return Inertia::render('admin/voucher/index', compact('vouchers'));
+        } else {
+            $vouchers = $this->voucherService->getByOutletId(Auth::user()->outlet_id);
+
+            return Inertia::render('user-outlet/voucher/index', compact('vouchers'));
+        }
     }
 
     public function create()
     {
-        $mVoucherTypes = $this->mVoucherService->getAll();
+        $admin = Auth::user()->outlet_id == null;
 
-        return Inertia::render('user-outlet/voucher/create', compact('mVoucherTypes'));
+        if ($admin) {
+            $mVoucherTypes = $this->mVoucherService->getAll();
+            $outlets = $this->outletService->getAll();
+
+            return Inertia::render('admin/voucher/create', compact('mVoucherTypes', 'outlets'));
+        } else {
+            $mVoucherTypes = $this->mVoucherService->getAll();
+
+            return Inertia::render('user-outlet/voucher/create', compact('mVoucherTypes'));
+        }
     }
 
     public function store(Request $request)
     {
         try {
             $this->voucherService->create($request->only([
+                'outlet_id',
                 'm_voucher_type_id',
                 'deskripsi',
                 'tanggal_terbit',
@@ -56,20 +77,35 @@ class VoucherController extends Controller
 
     public function edit($id)
     {
-        $mVoucherTypes = $this->mVoucherService->getAll();
-        $voucher = $this->voucherService->findById($id);
+        $admin = Auth::user()->outlet_id == null;
 
-        if (!$voucher) {
-            return redirect()->route('voucher.index')->with('error', 'Voucher not found.');
+        if ($admin) {
+            $mVoucherTypes = $this->mVoucherService->getAll();
+            $outlets = $this->outletService->getAll();
+            $voucher = $this->voucherService->findById($id);
+
+            if (!$voucher) {
+                return redirect()->route('voucher.index')->with('error', 'Voucher not found.');
+            }
+
+            return Inertia::render('admin/voucher/edit', compact('mVoucherTypes', 'outlets', 'voucher'));
+        } else {
+            $mVoucherTypes = $this->mVoucherService->getAll();
+            $voucher = $this->voucherService->findById($id);
+
+            if (!$voucher) {
+                return redirect()->route('voucher.index')->with('error', 'Voucher not found.');
+            }
+
+            return Inertia::render('user-outlet/voucher/edit', compact('mVoucherTypes', 'voucher'));
         }
-
-        return Inertia::render('user-outlet/voucher/edit', compact('mVoucherTypes', 'voucher'));
     }
 
     public function update(Request $request, $id)
     {
         try {
             $this->voucherService->update($id, $request->only([
+                'outlet_id',
                 'm_voucher_type_id',
                 'deskripsi',
                 'tanggal_terbit',
