@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\VoucherRepository;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class VoucherService
@@ -21,7 +22,6 @@ class VoucherService
     public function create(array $data)
     {
         $validator = Validator::make($data, [
-            'outlet_id' => 'required|integer',
             'm_voucher_type_id' => 'required|integer',
             'deskripsi' => 'required|string|max:255',
             'tanggal_terbit' => 'required|date',
@@ -34,6 +34,7 @@ class VoucherService
         }
 
         $validatedData = $validator->validated();
+        $validatedData['outlet_id'] = Auth::user()->outlet_id;
 
         return $this->voucherRepository->create($validatedData);
     }
@@ -42,7 +43,6 @@ class VoucherService
     public function update($id, array $data)
     {
         $validator = Validator::make($data, [
-            'outlet_id' => 'required|integer',
             'm_voucher_type_id' => 'required|integer',
             'deskripsi' => 'required|string|max:255',
             'tanggal_terbit' => 'required|date',
@@ -55,6 +55,7 @@ class VoucherService
         }
 
         $validatedData = $validator->validated();
+        $validatedData['outlet_id'] = Auth::user()->outlet_id;
 
         $voucher = $this->voucherRepository->findById($id);
 

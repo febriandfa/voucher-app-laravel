@@ -35,8 +35,8 @@ export function AppSidebar() {
         },
         {
             title: 'Voucher',
-            href: '/voucher',
-            icon: LayoutGrid,
+            href: route('voucher.index'),
+            icon: Ticket,
         },
     ];
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\MVoucherTypeService;
 use App\Services\VoucherService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -10,10 +11,12 @@ use Inertia\Inertia;
 class VoucherController extends Controller
 {
     protected $voucherService;
+    protected $mVoucherService;
 
-    public function __construct(VoucherService $voucherService)
+    public function __construct(VoucherService $voucherService, MVoucherTypeService $mVoucherService)
     {
         $this->voucherService = $voucherService;
+        $this->mVoucherService = $mVoucherService;
     }
 
     public function index()
@@ -25,14 +28,15 @@ class VoucherController extends Controller
 
     public function create()
     {
-        return Inertia::render('user-outlet/voucher/create');
+        $mVoucherTypes = $this->mVoucherService->getAll();
+
+        return Inertia::render('user-outlet/voucher/create', compact('mVoucherTypes'));
     }
 
     public function store(Request $request)
     {
         try {
             $this->voucherService->create($request->only([
-                'outlet_id',
                 'm_voucher_type_id',
                 'deskripsi',
                 'tanggal_terbit',
@@ -51,20 +55,20 @@ class VoucherController extends Controller
 
     public function edit($id)
     {
-        $mVoucherType = $this->voucherService->findById($id);
+        $mVoucherTypes = $this->mVoucherService->getAll();
+        $voucher = $this->voucherService->findById($id);
 
-        if (!$mVoucherType) {
+        if (!$voucher) {
             return redirect()->route('voucher.index')->with('error', 'Voucher not found.');
         }
 
-        return Inertia::render('user-outlet/voucher/edit', compact('mVoucherType'));
+        return Inertia::render('user-outlet/voucher/edit', compact('mVoucherTypes', 'voucher'));
     }
 
     public function update(Request $request, $id)
     {
         try {
             $this->voucherService->update($id, $request->only([
-                'outlet_id',
                 'm_voucher_type_id',
                 'deskripsi',
                 'tanggal_terbit',

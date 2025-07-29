@@ -60,3 +60,16 @@ export interface MVoucherType {
     updated_at: string;
     [key: string]: unknown;
 }
+
+export interface Voucher {
+    id: number;
+    outlet_id: number;
+    outlet: Outlet;
+    m_voucher_type_id: number;
+    m_voucher_type: MVoucherType;
+    deskripsi: string;
+    tanggal_terbit: string;
+    tanggal_kadaluarsa: string;
+    status: 'active' | 'inactive';
+    [key: string]: unknown;
+}
